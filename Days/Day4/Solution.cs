@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using AdventOfCode2024.Interfaces;
 
 namespace AdventOfCode2024.Days.Day4

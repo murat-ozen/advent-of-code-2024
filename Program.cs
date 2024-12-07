@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using AdventOfCode2024.Interfaces;
 
 class Program
 {
@@ -17,7 +16,7 @@ class Program
         {
             string solverTypeName = $"AdventOfCode2024.Days.{dayNumber.Substring(0, 1).ToUpper() + dayNumber.Substring(1)}.Solution";
             
-            Type solverType = Type.GetType(solverTypeName);
+            Type? solverType = Type.GetType(solverTypeName);
             
             if (solverType == null)
             {
@@ -25,7 +24,7 @@ class Program
                 return;
             }
 
-            MethodInfo solveMethod = solverType.GetMethod("Solve", BindingFlags.Public | BindingFlags.Static);
+            MethodInfo? solveMethod = solverType.GetMethod("Solve", BindingFlags.Public | BindingFlags.Static);
             
             if (solveMethod != null)
             {
