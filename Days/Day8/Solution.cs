@@ -24,6 +24,40 @@ namespace AdventOfCode2024.Days.Day8
             return antennas;
         }
 
+        public void AddAntinode(string[] input, HashSet<(int x, int y)> antinodePositions, List<(int x, int y)> positions, bool part2=false)
+        {
+            for (int i = 0; i < positions.Count; i++)
+            {
+                for (int j = i + 1; j < positions.Count; j++)
+                {
+                    if(!part2)
+                    {
+                        var p1 = positions[i];
+                        var p2 = positions[j];
+
+                        var antinode1 = (x: p1.x - (p2.x - p1.x), y: p1.y - (p2.y - p1.y));
+                        var antinode2 = (x: p2.x + (p2.x - p1.x), y: p2.y + (p2.y - p1.y));
+
+                        if (IsWithinBounds(antinode1, input))
+                            antinodePositions.Add(antinode1);
+                        if (IsWithinBounds(antinode2, input))
+                            antinodePositions.Add(antinode2);
+                    }
+                    else
+                    {
+                        if (i == j) continue;
+
+                        var p1 = positions[i];
+                        var p2 = positions[j];
+
+                        AddAllPointsBetween(p1, p2, antinodePositions, input);
+                    }
+                        
+                }
+            }
+            
+        }
+
         static bool IsWithinBounds((int x, int y) position, string[] grid)
         {
             return position.y >= 0 && position.y < grid.Length &&
@@ -79,16 +113,7 @@ namespace AdventOfCode2024.Days.Day8
                 {
                     for (int j = i + 1; j < positions.Count; j++)
                     {
-                        var p1 = positions[i];
-                        var p2 = positions[j];
-
-                        var antinode1 = (x: p1.x - (p2.x - p1.x), y: p1.y - (p2.y - p1.y));
-                        var antinode2 = (x: p2.x + (p2.x - p1.x), y: p2.y + (p2.y - p1.y));
-
-                        if (IsWithinBounds(antinode1, input))
-                            antinodePositions.Add(antinode1);
-                        if (IsWithinBounds(antinode2, input))
-                            antinodePositions.Add(antinode2);
+                        AddAntinode(input, antinodePositions, positions);
                     }
                 }
             }
@@ -110,12 +135,7 @@ namespace AdventOfCode2024.Days.Day8
                 {
                     for (int j = 0; j < positions.Count; j++)
                     {
-                        if (i == j) continue;
-
-                        var p1 = positions[i];
-                        var p2 = positions[j];
-
-                        AddAllPointsBetween(p1, p2, antinodePositions, input);
+                        AddAntinode(input, antinodePositions, positions, part2: true);
                     }
                 }
             }
