@@ -80,7 +80,8 @@ namespace AdventOfCode2024.Days.Day22
                 sum += secret;
             }
 
-            return (int)sum;
+            Console.WriteLine($"Part 1 (Long): {sum}");
+            return 0;
         }
 
         public int SolvePart2(string[] input)
